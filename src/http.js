@@ -37,7 +37,7 @@ export class Http {
     if (this.requestsCount === 1) {
       if (this.loadingMaskDelay > 0) {
         this._queryTimeout = window.setTimeout(() => {
-          this.loadingMask.show()
+          this.loadingMask.show();
         }, this.loadingMaskDelay);
       } else {
         this.loadingMask.show();
@@ -69,7 +69,7 @@ export class Http {
     }
     const promise = this.authHttp.get(urlWithProps).then(response => {
       this._hideLoadingMask();
-      return JSON.parse(response.response)
+      return JSON.parse(response.response);
     });
     promise.catch(this.errorHandler.bind(this));
     return promise;
@@ -113,8 +113,8 @@ export class Http {
   }
 
   multipartForm(url, data, method) {
-    this._showLoadingMask();
     var self = this;
+    self._showLoadingMask();
     var req = $.ajax({
       url: url,
       data: data,
@@ -126,11 +126,15 @@ export class Http {
       }
     });
 
-    return new Promise(function (resolve, reject) {
-      req.done(resolve);
-      req.fail(reject);
+    req.done(function() {
       self._hideLoadingMask();
-    }).catch(this.errorHandler.bind(this));
+    });
+
+    // return new Promise(function (resolve, reject) {
+    //   req.done(resolve);
+    //   req.fail(reject);
+    //   self._hideLoadingMask();
+    // }).catch(this.errorHandler.bind(this));
   }
 
   postDownloadFile(url, data) {
@@ -174,7 +178,7 @@ export class Http {
       };
 
       xmlhttp.ontimeout = function () {
-        reject({timeout: true})
+        reject({timeout: true});
       };
 
       xmlhttp.addEventListener("error", () => {
@@ -205,7 +209,7 @@ export class Http {
       .withBaseUrl(this.authOrigin)
       .withHeader('Authorization', 'Basic ' + encodedData)
       .send();
-    promise.then(this.loginHandle.bind(this))
+    promise.then(this.loginHandle.bind(this));
     promise.catch(this.errorHandler.bind(this));
 
     return promise;
@@ -227,7 +231,7 @@ export class Http {
       });
 
     const promise = client.post('token', $.param(data));
-    promise.then(this.loginHandle.bind(this))
+    promise.then(this.loginHandle.bind(this));
     promise.catch(this.errorHandler.bind(this));
 
     return promise;
